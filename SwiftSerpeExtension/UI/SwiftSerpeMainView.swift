@@ -31,12 +31,24 @@ struct SwiftSerpeMainView: View {
     @State private var draft = "E(3,8)"
     @Environment(\.colorScheme) private var colorScheme
 
-    private var theme: MelGenTheme { colorScheme == .dark ? .dark : .light }
+    /// The chosen theme, or the host's when nothing has been chosen. An AUv3
+    /// lives inside somebody else's window and does not always inherit the
+    /// scheme its author intended.
+    private var theme: MelGenTheme { themePreference.theme(in: colorScheme) }
+
+    @AppStorage("SwiftSerpe.theme") private var themeRaw = ThemePreference.system.rawValue
+    private var themePreference: ThemePreference {
+        ThemePreference(rawValue: themeRaw) ?? .system
+    }
+    private var themeBinding: Binding<ThemePreference> {
+        Binding(get: { themePreference }, set: { themeRaw = $0.rawValue })
+    }
     private var playParameter: ObservableAUParameter { parameterTree.global.playMelody }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: MelGenMetrics.space3) {
+                transport
                 notation
                 ring
                 reading
@@ -254,5 +266,35 @@ struct SwiftSerpeMainView: View {
 
     private func commit() {
         audioUnit?.update(state: state)
+    }
+
+    // MARK: - Transport, theme and panic
+    //
+    // The shared row from `UI`, bound to the three parameters this plug-in has
+    // always declared. They reached the kernel and worked; nothing showed them,
+    // which the register called out as its own kind of gap — a control that
+    // exists and cannot be found is not much better than one that lies.
+
+    private var transportBindings: TransportParameters.Bindings {
+        TransportParameters.Bindings(in: parameterTree)
+    }
+
+    private var transport: some View {
+        VStack(alignment: .leading, spacing: MelGenMetrics.space2) {
+            TransportRow(isPlaying: transportBindings.play ?? .constant(false),
+                         followsHost: transportBindings.hostSync ?? .constant(false),
+                         direction: transportBindings.direction,
+                         theme: theme)
+            HStack(spacing: MelGenMetrics.space2) {
+                ThemeChip(preference: themeBinding, theme: theme)
+                Spacer(minLength: 0)
+                Button("Panic") { audioUnit?.panic() }
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(theme.warning)
+                    .frame(minHeight: MelGenMetrics.controlHeight)
+                    .accessibilityHint("Ends every note this plug-in is holding, "
+                                       + "and sends all-notes-off on every channel")
+            }
+        }
     }
 }
