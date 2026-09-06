@@ -1,4 +1,4 @@
-# Working on Serpe
+# Working on SwiftSerpe
 
 *Short on purpose. This is the third plug-in on a shared foundation, and the
 first whose engine had to be split rather than reused, so most of what you need
@@ -14,13 +14,13 @@ to know is about where the line falls.*
 git clone https://github.com/Enkerli/enkerli-swift ../enkerli-swift
 ```
 
-`Scripts/verify.sh` and `Serpe.xcodeproj` both look in `$REPO/../enkerli-swift`;
+`Scripts/verify.sh` and `SwiftSerpe.xcodeproj` both look in `$REPO/../enkerli-swift`;
 override with `ENKERLI_SWIFT=...`. Without it every suite fails with that line
 printed, which is deliberate — a suite that quietly passed without the foundation
 would be checking nothing.
 
 **Xcode's test targets reach almost nothing.** Everything real is either in the
-`SerpeExtension` target (extension-only membership) or in the package next
+`SwiftSerpeExtension` target (extension-only membership) or in the package next
 door. A green test action says the host app compiles. The real check is:
 
 ```bash

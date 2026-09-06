@@ -1,4 +1,4 @@
-# Serpe
+# SwiftSerpe
 
 An iOS/macOS **AUv3 MIDI processor** (`aumi Srpe`) that turns **UPI notation**
 into rhythm — Euclidean patterns, polygons, Barlow transforms, additive meters,
@@ -9,7 +9,7 @@ The third plug-in on [`enkerli-swift`](https://github.com/Enkerli/enkerli-swift)
 and the first whose engine had to be *split* rather than reused. The rhythm
 algorithms — Björklund, Barlow indispensability, the codecs — are shared theory
 and live in that package, held to `packages/theory/vectors/rhythm.json`. The
-notation is Serpe's, has a grammar rather than an algorithm, and lives here.
+notation is SwiftSerpe's, has a grammar rather than an algorithm, and lives here.
 
 It is **not** the JUCE [Rhythm Pattern
 Explorer](https://github.com/Enkerli/rhythm_pattern_explorer). That one is
@@ -71,8 +71,8 @@ git clone https://github.com/Enkerli/enkerli-swift ../enkerli-swift
 git clone https://github.com/Enkerli/music-suite   ../music-suite   # for the vectors
 ```
 
-Then open `Serpe.xcodeproj` (Xcode 27+, iOS/macOS 26.0+). `SerpeExtension` is
-the plug-in; `Serpe` is a host app that loads it.
+Then open `SwiftSerpe.xcodeproj` (Xcode 27+, iOS/macOS 26.0+). `SwiftSerpeExtension` is
+the plug-in; `SwiftSerpe` is a host app that loads it.
 
 ## Verifying
 
@@ -95,8 +95,8 @@ words **NOT RUN**. A skip is not a pass.
 |---|---:|---|
 | `UPI/UPIParser.swift` | ~530 | The notation. The only substantial thing here that could not be in the package |
 | `UPI/UPIPattern.swift` | ~130 | What the notation produces: a mask, and the two layers that ride on its onsets |
-| `Rhythm/SerpeState.swift` | ~175 | The session, and the three voicings |
-| `UI/SerpeMainView.swift` | ~250 | One screen, and the ring |
+| `Rhythm/SwiftSerpeState.swift` | ~175 | The session, and the three voicings |
+| `UI/SwiftSerpeMainView.swift` | ~250 | One screen, and the ring |
 | `AudioUnit/` (3 files) | ~200 | The session half of the audio unit, three overrides, the parameter tree |
 
 Björklund, Barlow, the codecs, the AU shell, the C++ kernel, the SwiftUI kit and

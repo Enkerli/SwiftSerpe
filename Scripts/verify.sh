@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Checks the parts of Serpe that Xcode's test targets can't reach.
+# Checks the parts of SwiftSerpe that Xcode's test targets can't reach.
 #
 #   Scripts/verify.sh          # all suites
 #   Scripts/verify.sh upi      # one suite
@@ -18,7 +18,7 @@
 set -uo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-EXT="$REPO/SerpeExtension"
+EXT="$REPO/SwiftSerpeExtension"
 PACKAGE="${ENKERLI_SWIFT:-$REPO/../enkerli-swift}"
 MUSIC_SUITE="${MUSIC_SUITE:-$REPO/../music-suite}"
 
